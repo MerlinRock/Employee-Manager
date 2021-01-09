@@ -1,5 +1,6 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql");
+const { type } = require("os");
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -48,6 +49,9 @@ var start = () => {
         viewRoles()
       }
       
+      else if (answer.prompts === "Update Employee Roles") {
+        updateRoles()
+      }
 
       else {
         connection.end()
@@ -174,4 +178,58 @@ function viewRoles() {
       console.table(res);
       start();
   });
+}
+
+
+
+// function updateRoles() {
+//   connection.query("SELECT * FROM role", function(err,res){
+//     console.table(res)
+//     inquirer.prompt({
+//       name: "roleTitle",
+//       type: "rawlist",
+//       choices: function(value){
+//         var rolesArray = [];
+//         for(var i=0; i<res.length; i++){
+//           rolesArray.push(res[i].title)
+//         }
+//         return rolesArray;
+//       },
+//       message: "Which role would you like to update?"
+//     })
+//     .then(function(answer){
+//       for(var i=0; i<res.length; i++) {
+//         if(res[i].title == answer.choices){
+//           var chosenRole = res[i];
+        
+//           console.log(chosenRole);
+//           inquirer.prompt({
+//             name: "role",
+//             type: "input",
+//             message: "What would you like to rename this role?"
+//           })
+//           .then(function(answer){
+//             if(chosenRole.title = answer.choices){
+//               connection.query("UPDATE role SET ? WHERE ?",
+//               [
+//                 {
+//                   title: answer.role
+//                 },
+//                 {
+//                   id: chosenRole.id
+//                 }
+            
+//               ],
+//               function(err,res){
+//                 console.log("Role updated succesfully!");
+//               }
+//               )
+//             }
+//           })
+//         }
+//       }
+
+
+    })
+  })
 }
